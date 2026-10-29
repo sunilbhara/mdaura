@@ -1,6 +1,6 @@
 {
-  "name": "mdaura-tmp",
-  "version": "0.1.0",
+  "name": "mdaura",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,18 +9,34 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "next": "16.4.0",
+    "docx": "^9.11.0",
+    "file-saver": "^2.0.5",
+    "highlight.js": "^11.12.0",
+    "mermaid": "^12.2.0",
+    "next": "^16.4.3",
+    "pptxgenjs": "^4.0.1",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "react-icons": "^5.7.0",
+    "react-markdown": "^10.1.0",
+    "rehype-raw": "^7.0.0",
+    "rehype-sanitize": "^6.0.0",
+    "remark-gfm": "^4.0.1",
+    "remark-parse": "^11.0.0",
+    "unified": "^11.0.5"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4",
-    "@types/node": "^20",
+    "@types/file-saver": "^2.0.7",
+    "@types/node": "^22.20.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.4.0",
+    "eslint-config-next": "^16.4.3",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "overrides": {
+    "image-size": "^2.0.4"
   }
 }
