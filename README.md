@@ -10,6 +10,7 @@ Open a `.md` file and get a proper document: an outline, search, highlighted cod
 
 [![Next.js](https://img.shields.io/badge/Next.js-16-000?logo=nextdotjs)](https://nextjs.org)
 [![React](https://img.shields.io/badge/React-19-149eca?logo=react)](https://react.dev)
+[![Node.js](https://img.shields.io/badge/Node.js-26-5fa04e?logo=nodedotjs&logoColor=white)](https://nodejs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-38bdf8?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-0e9f90.svg)](LICENSE)
@@ -83,7 +84,7 @@ The site includes [documentation](content/docs) rendered by MDAura itself, and a
 
 ## Getting started
 
-Requires **Node.js 20.9 or later**.
+Requires **Node.js 26 or later** (see `.nvmrc`; run `nvm use` if you use nvm).
 
 ```bash
 git clone https://github.com/sunilbhara/mdaura.git
