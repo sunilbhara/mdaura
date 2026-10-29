@@ -1,26 +1,175 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:is(.dark, .dark *));
+
+/* ── Tokens ─────────────────────────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #f7f8f9;
+  --surface: #ffffff;
+  --surface-2: #f0f2f4;
+  --ink: #10151b;
+  --ink-2: #3a4450;
+  --muted: #6b7684;
+  --rule: #e2e6ea;
+  --rule-strong: #cfd5db;
+  --accent: #0e9f90;
+  --accent-ink: #0b7c71;
+  --accent-soft: rgba(14, 159, 144, 0.1);
+  --violet: #6b70f0;
+
+  --article-bg: #ffffff;
+  --prose-body: #36404b;
+  --prose-heading: #10151b;
+  --diagram-accent: #0d9488;
+  --diagram-glow: rgba(13, 148, 136, 0.35);
+}
+.dark {
+  --bg: #0b0e12;
+  --surface: #11151b;
+  --surface-2: #161b22;
+  --ink: #ecf0f3;
+  --ink-2: #c3cbd4;
+  --muted: #8994a1;
+  --rule: #1f2630;
+  --rule-strong: #2b3440;
+  --accent: #3dd6c3;
+  --accent-ink: #5eead4;
+  --accent-soft: rgba(61, 214, 195, 0.1);
+  --violet: #9aa0fa;
+
+  --article-bg: #0e1217;
+  --prose-body: #c3cbd4;
+  --prose-heading: #f1f5f9;
+  --diagram-accent: #5eead4;
+  --diagram-glow: rgba(94, 234, 212, 0.5);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-violet: var(--violet);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html { color-scheme: light; }
+html.dark { color-scheme: dark; }
+
+body {
+  font-family: var(--font-sans);
+  font-feature-settings: "cv11", "ss01";
+  background: var(--bg);
+  color: var(--ink-2);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+
+/* ── Shared UI primitives ──────────────────────────────────────────────
+   Declared with @utility so they sit in Tailwind's utilities layer and any
+   variant (md:hidden, h-7, ...) can override them. */
+@utility btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  height: 2.5rem; padding: 0 1rem; border-radius: 10px;
+  font: 500 14px/1 var(--font-sans); white-space: nowrap; cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s, transform 0.1s;
+  &:active { transform: translateY(1px); }
+  &:disabled { opacity: 0.55; cursor: progress; }
+}
+@utility btn-primary {
+  background: var(--ink); color: var(--bg); border: 1px solid var(--ink);
+  &:hover { background: color-mix(in srgb, var(--ink) 86%, var(--accent)); }
+}
+@utility btn-ghost {
+  background: transparent; color: var(--ink); border: 1px solid var(--rule-strong);
+  &:hover { background: var(--surface-2); }
+}
+@utility btn-sm { height: 2rem; padding: 0 0.7rem; font-size: 13px; border-radius: 8px; }
+@utility icon-btn {
+  display: inline-grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 9px;
+  color: var(--ink-2); border: 1px solid transparent; background: transparent; cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+  &:hover { background: var(--surface-2); color: var(--ink); }
+  &[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent-ink); }
+}
+@utility kbd {
+  display: inline-flex; align-items: center; min-width: 1.35rem; height: 1.35rem; padding: 0 0.3rem;
+  justify-content: center; border-radius: 5px; border: 1px solid var(--rule-strong); border-bottom-width: 2px;
+  font: 500 11px/1 var(--font-sans); color: var(--muted); background: var(--surface);
+}
+@utility site-header {
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(14px) saturate(1.2);
+  border-bottom: 1px solid var(--rule);
+}
+@utility popover {
+  background: var(--surface); border: 1px solid var(--rule); border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(16, 21, 27, 0.04), 0 18px 40px -18px rgba(16, 21, 27, 0.35);
+  .dark & { box-shadow: 0 18px 40px -16px rgba(0, 0, 0, 0.7); }
+}
+
+/* Hero aura: one soft light source behind the hero only. */
+.hero-aura {
+  position: absolute; inset: -12rem -10rem auto auto; width: 46rem; height: 34rem; pointer-events: none;
+  background:
+    radial-gradient(closest-side at 40% 45%, rgba(45, 212, 191, 0.22), transparent),
+    radial-gradient(closest-side at 70% 60%, rgba(107, 112, 240, 0.16), transparent);
+  filter: blur(40px);
+}
+.dark .hero-aura { opacity: 0.8; }
+
+/* Logo glow */
+.logo-shadow { filter: drop-shadow(0 1px 2px rgba(15, 23, 42, 0.18)); }
+.dark .logo-shadow { filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45)); }
+
+/* Scrollbar + selection */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: var(--rule-strong); border-radius: 8px; border: 2px solid var(--bg); }
+::selection { background: rgba(14, 159, 144, 0.18); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@media print {
+  .no-print { display: none !important; }
+  body { background: #fff !important; }
 }
+
+/* Share "coming soon" dialog art: a link chip inside a slowly turning ring. */
+.share-art {
+  position: relative; height: 8.5rem; display: grid; place-items: center; overflow: hidden;
+  border-bottom: 1px solid var(--rule);
+  background:
+    radial-gradient(closest-side at 50% 60%, rgba(61, 214, 195, 0.22), transparent 75%),
+    radial-gradient(closest-side at 70% 30%, rgba(139, 143, 247, 0.18), transparent 70%),
+    var(--surface-2);
+}
+.share-ring {
+  position: absolute; width: 6.2rem; height: 6.2rem; border-radius: 50%;
+  border: 2px dashed color-mix(in srgb, var(--accent) 55%, transparent);
+  animation: share-turn 14s linear infinite;
+}
+.share-chip {
+  position: relative; display: grid; place-items: center; width: 3.2rem; height: 3.2rem; border-radius: 14px;
+  background: var(--surface); color: var(--accent-ink); border: 1px solid var(--rule);
+  box-shadow: 0 10px 30px -12px rgba(14, 159, 144, 0.55);
+}
+@keyframes share-turn { to { transform: rotate(360deg); } }
