@@ -36,6 +36,7 @@ export const RELEASES: Release[] = [
       { kind: "improved", text: "A cleaner look throughout, in light and dark themes." },
       { kind: "fixed", text: "Several diagrams on one page no longer cancel each other's reveal animation." },
       { kind: "fixed", text: "The flowing light on flowchart connectors now appears on first load, not only after replay." },
+      { kind: "fixed", text: "HTML in a document can no longer use CSS classes to draw over the reader's own controls." },
     ],
   },
   {

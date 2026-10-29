@@ -36,7 +36,9 @@ const schema = {
   ...defaultSchema,
   attributes: {
     ...defaultSchema.attributes,
-    "*": [...(defaultSchema.attributes?.["*"] ?? []), "className", "align"],
+    // No className on arbitrary elements: utility classes like "fixed inset-0" would let a document
+    // draw over the app. The default schema already allows language-*, task-list and footnote classes.
+    "*": [...(defaultSchema.attributes?.["*"] ?? []), "align"],
     img: [...(defaultSchema.attributes?.img ?? []), "width", "height", "loading"],
   },
 };
